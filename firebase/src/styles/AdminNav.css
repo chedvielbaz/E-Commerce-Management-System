@@ -1,0 +1,46 @@
+html, body {
+    height: 100%; /* מבטיח שה-body יתפוס את כל גובה הדף */
+    margin: 0; /* מסיר רווחים ברירת מחדל */
+    display: flex; /* משתמש ב-flexbox */
+    flex-direction: column; /* מסדר את התוכן בעמודה */
+}
+
+.admin-nav {
+    display: flex;
+    justify-content: center; /* מרכז את הקישורים */
+    gap: 20px; /* רווחים בין הקישורים */
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+    width: 100%; /* מתפרס על כל רוחב העמוד */
+}
+
+.customers-container {
+    flex: 1; /* מאפשר לקומפוננטה להתפרס על כל החלל הפנוי */
+    display: flex; /* משתמש ב-flexbox */
+    flex-direction: column; /* מסדר את התוכן בעמודה */
+    align-items: center; /* מרכז את התוכן אופקית */
+    justify-content: center; /* מרכז את התוכן אנכית */
+    width: 100%; /* מתפרס על כל רוחב העמוד */
+    padding: 20px; /* רווח פנימי */
+    background-color: #fff; /* רקע לבן */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל קל */
+    border-radius: 8px; /* פינות מעוגלות */
+}
+
+table {
+    width: 100%; /* מתפרס על כל רוחב הטבלה */
+    border-collapse: collapse;
+    margin-top: 20px; /* רווח בין הכותרת לטבלה */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}

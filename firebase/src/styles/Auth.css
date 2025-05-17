@@ -1,0 +1,92 @@
+.login {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .login h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    display: inline-block;
+    text-align: left;
+  }
+  
+  .login-form input {
+    display: block;
+    width: 300px;
+    padding: 10px;
+    margin: 10px auto;
+    font-size: 1rem;
+  }
+  
+  .login-form button {
+    width: 320px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .login-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .login-form p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .login-form span {
+    text-decoration: underline;
+  }
+  /* עיצוב לדף ההרשמה */
+.register {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .register h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .register-form {
+    display: inline-block;
+    text-align: left;
+  }
+  
+  .register-form input {
+    display: block;
+    width: 300px;
+    padding: 10px;
+    margin: 10px auto;
+    font-size: 1rem;
+  }
+  
+  .register-form button {
+    width: 320px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .register-form button:hover {
+    background-color: #218838;
+  }
+  
+  .register-form div {
+    margin: 10px auto;
+    text-align: left;
+    width: 300px;
+  }
+  
+  .register-form label {
+    margin-left: 5px;
+  }

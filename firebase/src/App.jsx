@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "./firebase/firebaseConfig";
 import Home from "./components/Shared/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
@@ -13,54 +16,71 @@ import Products from "./components/Customer/Products";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [error, setError] = useState(""); // ודא שה-state מוגדר
+  const [authResolved, setAuthResolved] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (!currentUser) {
-      const storedUser = JSON.parse(localStorage.getItem("currentUser"));
-      if (storedUser) {
-        setCurrentUser(storedUser);
-      } else {
-        setError("לא מחובר.");
-        if (!window.location.pathname.startsWith("/app/login") && !window.location.pathname.startsWith("/app/register")) {
-          navigate("/");
-        }
+    const unsub = onAuthStateChanged(auth, async (fbUser) => {
+      if (!fbUser) {
+        setCurrentUser(null);
+        setAuthResolved(true);
+        return;
       }
-    }
-  }, [currentUser, navigate]);
+
+      try {
+        const snap = await getDoc(doc(db, "users", fbUser.uid));
+        if (!snap.exists) {
+          await signOut(auth);
+          setCurrentUser(null);
+          setAuthResolved(true);
+          return;
+        }
+        const profile = snap.data();
+        setCurrentUser({
+          id: fbUser.uid,
+          ...profile,
+          email: fbUser.email ?? profile.email ?? "",
+        });
+      } catch {
+        setCurrentUser(null);
+      } finally {
+        setAuthResolved(true);
+      }
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
-    // שמירת המשתמש ב-localStorage בכל פעם שהוא משתנה
-    if (currentUser) {
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem("currentUser");
+    if (!authResolved || currentUser) return;
+    const path = location.pathname;
+    const allowed =
+      path === "/" ||
+      path.startsWith("/app/login") ||
+      path.startsWith("/app/register");
+    if (!allowed) {
+      navigate("/");
     }
-  }, [currentUser]);
+  }, [authResolved, currentUser, location.pathname, navigate]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/app/login" element={<Login setCurrentUser={setCurrentUser} />} />
-      <Route path="/app/register" element={<Register />} />
-      <Route path="/admin/categories" element={<AdminCategories />} />
-      <Route path="/admin/products" element={<AdminProducts />} />
-      <Route path="/admin/customers" element={<AdminCustomers />} />
-      <Route path="/admin/statistics" element={<AdminStatistics />} />
-      <Route
-        path="/customer/my-account"
-        element={<MyAccount currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-      />
-      <Route
-        path="/customer/my-orders"
-        element={<MyOrders currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-      />
-      <Route
-        path="/customer/products"
-        element={<Products currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-      />
-    </Routes>
+    <div className="app-layout">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/app/login" element={<Login />} />
+        <Route path="/app/register" element={<Register />} />
+        <Route path="/admin/categories" element={<AdminCategories />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/customers" element={<AdminCustomers />} />
+        <Route path="/admin/statistics" element={<AdminStatistics />} />
+        <Route
+          path="/customer/my-account"
+          element={<MyAccount currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+        />
+        <Route path="/customer/my-orders" element={<MyOrders currentUser={currentUser} />} />
+        <Route path="/customer/products" element={<Products currentUser={currentUser} />} />
+      </Routes>
+    </div>
   );
 }
 

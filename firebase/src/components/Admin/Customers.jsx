@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import { db } from "../../firebase/firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import "../../styles/AdminNav.css"; // ייבוא קובץ CSS לעיצוב
+import { parseCartLineKey } from "../../utils/cartLineKey";
+import "../../styles/Global.css";
+import "../../styles/AdminNav.css";
+import AdminNav from "./AdminNav";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -26,7 +28,8 @@ function Customers() {
               const cartData = cartDoc.data();
               const items = cartData.items || {};
 
-              for (const [productId, quantity] of Object.entries(items)) {
+              for (const [rawKey, quantity] of Object.entries(items)) {
+                const { productId } = parseCartLineKey(rawKey);
                 const existingPurchase = purchaseMap.get(productId);
                 const totalQuantity = existingPurchase
                   ? existingPurchase.quantity + quantity
@@ -60,13 +63,13 @@ function Customers() {
             return {
               id: userDoc.id,
               fullName:
-                userData.fullName || userData.fullname || "לא זמין", // בדיקה לשני השמות
+                userData.fullName || userData.fullname || "לא זמין",
               joinAt:
                 userData.joinAt && userData.joinAt.seconds
                   ? new Date(userData.joinAt.seconds * 1000).toLocaleDateString()
                   : userData.joinat && userData.joinat.seconds
                   ? new Date(userData.joinat.seconds * 1000).toLocaleDateString()
-                  : "לא זמין", // בדיקה לשני השמות
+                  : "לא זמין",
               role: userData.role || "לא זמין",
               purchases: updatedPurchaseList,
             };
@@ -82,23 +85,13 @@ function Customers() {
   }, []);
 
   return (
-    <div className="customers-container">
-      <nav className="admin-nav">
-        <NavLink to="/admin/categories" className="nav-link">
-          קטגוריות
-        </NavLink>
-        <NavLink to="/admin/products" className="nav-link">
-          מוצרים
-        </NavLink>
-        <NavLink to="/admin/customers" className="nav-link">
-          לקוחות
-        </NavLink>
-        <NavLink to="/admin/statistics" className="nav-link">
-          סטטיסטיקה
-        </NavLink>
-      </nav>
-      <h2>שלום מנהל</h2>
-      <h1>Customers</h1>
+    <div className="page-shell customers-page">
+      <AdminNav />
+      <header className="page-head">
+        <span className="page-head__eyebrow">ניהול חנות</span>
+        <h1 className="page-head__title">לקוחות</h1>
+        <p className="page-head__sub">רשימת משתמשים והיסטוריית רכישות מצטברות</p>
+      </header>
       <table>
         <thead>
           <tr>

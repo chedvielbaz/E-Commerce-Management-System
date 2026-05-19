@@ -1,0 +1,53 @@
+.orders-page {
+  width: 100%;
+}
+
+.orders-page .orders-table-wrap {
+  margin-top: 1.25rem;
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.orders-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.orders-page th,
+.orders-page td {
+  border: 1px solid var(--border-soft);
+  padding: 0.85rem 0.9rem;
+  text-align: right;
+}
+
+.orders-page th {
+  background: var(--surface-muted);
+  font-weight: 600;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.orders-page tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.orders-page p.form-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.orders-table-wrap > p:only-child {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 300;
+  font-size: 0.9rem;
+}

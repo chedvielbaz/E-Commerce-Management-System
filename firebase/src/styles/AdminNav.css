@@ -1,46 +1,171 @@
-html, body {
-    height: 100%; /* מבטיח שה-body יתפוס את כל גובה הדף */
-    margin: 0; /* מסיר רווחים ברירת מחדל */
-    display: flex; /* משתמש ב-flexbox */
-    flex-direction: column; /* מסדר את התוכן בעמודה */
+html,
+body {
+  min-height: 100%;
+  margin: 0;
 }
 
 .admin-nav {
-    display: flex;
-    justify-content: center; /* מרכז את הקישורים */
-    gap: 20px; /* רווחים בין הקישורים */
-    background-color: #f4f4f4;
-    padding: 10px;
-    border-bottom: 2px solid #ccc;
-    width: 100%; /* מתפרס על כל רוחב העמוד */
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 2rem;
+  padding: 1.1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.customers-container {
-    flex: 1; /* מאפשר לקומפוננטה להתפרס על כל החלל הפנוי */
-    display: flex; /* משתמש ב-flexbox */
-    flex-direction: column; /* מסדר את התוכן בעמודה */
-    align-items: center; /* מרכז את התוכן אופקית */
-    justify-content: center; /* מרכז את התוכן אנכית */
-    width: 100%; /* מתפרס על כל רוחב העמוד */
-    padding: 20px; /* רווח פנימי */
-    background-color: #fff; /* רקע לבן */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל קל */
-    border-radius: 8px; /* פינות מעוגלות */
+.admin-nav .nav-link {
+  padding: 0.25rem 0;
+  border-radius: 0;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  text-decoration: none !important;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
 }
 
-table {
-    width: 100%; /* מתפרס על כל רוחב הטבלה */
-    border-collapse: collapse;
-    margin-top: 20px; /* רווח בין הכותרת לטבלה */
+.admin-nav .nav-link:hover {
+  color: var(--text);
+  background: none;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+.admin-nav .nav-link[aria-current="page"] {
+  color: var(--text);
+  background: none;
+  border-bottom-color: var(--text);
+  box-shadow: none;
 }
 
-th {
-    background-color: #f4f4f4;
-    font-weight: bold;
+nav.admin-nav .admin-nav__logout {
+  padding: 0.4rem 0.75rem;
+  border-radius: 0;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  cursor: pointer;
+  margin-inline-start: 0.5rem;
+}
+
+nav.admin-nav .admin-nav__logout:hover {
+  color: var(--text);
+  border-color: var(--text) !important;
+  background: transparent !important;
+}
+
+.customers-page {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.customers-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.customers-page th,
+.customers-page td {
+  border: 1px solid var(--border-soft);
+  padding: 0.85rem 0.9rem;
+  text-align: right;
+}
+
+.customers-page th {
+  background: var(--surface-muted);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.customers-page tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.customers-page td table {
+  margin-top: 0;
+  font-size: 0.75rem;
+  box-shadow: none;
+  border: 1px solid var(--border-soft);
+}
+
+.customers-page td table th {
+  font-size: 0.58rem;
+}
+
+.stats-page {
+  width: 100%;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.stats-card {
+  padding: 1.35rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.stats-card h2 {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.stats-card select {
+  width: 100%;
+  margin-bottom: 0.85rem;
+  padding: 0.6rem 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-size: 0.8rem;
+}
+
+.stats-card select:focus {
+  outline: none;
+  border-bottom-color: var(--text);
+}
+
+.stats-bar-placeholder {
+  margin: 0;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  line-height: 1.6;
+  border: 1px dashed var(--border);
+  background: var(--surface-muted);
 }

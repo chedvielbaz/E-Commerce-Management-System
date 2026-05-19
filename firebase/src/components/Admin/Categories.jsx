@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import { db } from "../../firebase/firebaseConfig";
 import {
   collection,
@@ -9,7 +8,9 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import "../../styles/AdminNav.css"; // ייבוא קובץ CSS לעיצוב
+import "../../styles/Global.css";
+import "../../styles/AdminNav.css";
+import AdminNav from "./AdminNav";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -17,7 +18,6 @@ const Categories = () => {
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [editingCategoryName, setEditingCategoryName] = useState("");
 
-  // שליפת קטגוריות מ-Firebase
   useEffect(() => {
     const fetchCategories = async () => {
       const categoriesCollection = collection(db, "categories");
@@ -32,7 +32,6 @@ const Categories = () => {
     fetchCategories();
   }, []);
 
-  // הוספת קטגוריה חדשה
   const handleAddCategory = async () => {
     if (newCategory.trim() === "") return;
     const categoriesCollection = collection(db, "categories");
@@ -41,7 +40,6 @@ const Categories = () => {
     setNewCategory("");
   };
 
-  // עדכון שם קטגוריה
   const handleUpdateCategory = async (id) => {
     const categoryDoc = doc(db, "categories", id);
     await updateDoc(categoryDoc, { categoryName: editingCategoryName });
@@ -56,7 +54,6 @@ const Categories = () => {
     );
   };
 
-  // מחיקת קטגוריה
   const handleDeleteCategory = async (id) => {
     const categoryDoc = doc(db, "categories", id);
     await deleteDoc(categoryDoc);
@@ -64,38 +61,28 @@ const Categories = () => {
   };
 
   return (
-    <div className="categories-container">
-      {/* הניווט של המנהל */}
-      <nav className="admin-nav">
-        <NavLink to="/admin/categories" className="nav-link">
-          קטגוריות
-        </NavLink>
-        <NavLink to="/admin/products" className="nav-link">
-          מוצרים
-        </NavLink>
-        <NavLink to="/admin/customers" className="nav-link">
-          לקוחות
-        </NavLink>
-        <NavLink to="/admin/statistics" className="nav-link">
-          סטטיסטיקה
-        </NavLink>
-      </nav>
-  
-      {/* ברכת שלום למנהל */}
-      <h2>שלום מנהל</h2>
-  
-      {/* תוכן הדף */}
-      <h1>Categories</h1>
-      <div>
+    <div className="page-shell categories-page">
+      <AdminNav />
+
+      <header className="page-head">
+        <span className="page-head__eyebrow">ניהול חנות</span>
+        <h1 className="page-head__title">קטגוריות</h1>
+        <p className="page-head__sub">הוספה, עריכה ומחיקה של קטגוריות למוצרים</p>
+      </header>
+
+      <div className="category-toolbar surface surface--pad">
         <input
           type="text"
-          placeholder="הוסף קטגוריה חדשה"
+          placeholder="שם קטגוריה חדשה"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
         />
-        <button onClick={handleAddCategory}>הוסף</button>
+        <button type="button" className="btn-primary btn-sm" onClick={handleAddCategory}>
+          הוסף קטגוריה
+        </button>
       </div>
-      <ul>
+
+      <ul className="category-list">
         {categories.map((category) => (
           <li key={category.id}>
             {editingCategoryId === category.id ? (
@@ -108,11 +95,17 @@ const Categories = () => {
               <span>{category.categoryName}</span>
             )}
             {editingCategoryId === category.id ? (
-              <button onClick={() => handleUpdateCategory(category.id)}>
-                עדכן
+              <button
+                type="button"
+                className="btn-primary btn-sm"
+                onClick={() => handleUpdateCategory(category.id)}
+              >
+                שמור
               </button>
             ) : (
               <button
+                type="button"
+                className="btn-outline btn-sm"
                 onClick={() => {
                   setEditingCategoryId(category.id);
                   setEditingCategoryName(category.categoryName);
@@ -121,7 +114,11 @@ const Categories = () => {
                 ערוך
               </button>
             )}
-            <button onClick={() => handleDeleteCategory(category.id)}>
+            <button
+              type="button"
+              className="btn-danger btn-sm"
+              onClick={() => handleDeleteCategory(category.id)}
+            >
               מחק
             </button>
           </li>
@@ -131,4 +128,4 @@ const Categories = () => {
   );
 };
 
-export default Categories; // סוגר את הקומפוננטה
+export default Categories;

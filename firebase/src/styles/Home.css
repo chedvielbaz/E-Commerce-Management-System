@@ -1,0 +1,95 @@
+.home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  position: relative;
+  background: var(--surface);
+}
+
+.home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 40%, #fafafa 100%);
+  z-index: 0;
+}
+
+.home-hero {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+}
+
+.home-brand {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-badge {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.home h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 6vw, 2.85rem);
+  line-height: 1.15;
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.home-lead {
+  margin: 0 0 2.5rem;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.home-actions button {
+  min-width: 160px;
+  padding: 1rem 2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+}
+
+.home-actions .btn-primary {
+  background: var(--accent);
+  color: #fff !important;
+  border: 1px solid var(--accent);
+}
+
+.home-actions .btn-secondary {
+  background: transparent;
+  color: var(--text) !important;
+  border: 1px solid var(--border);
+}
+
+.home-actions .btn-secondary:hover {
+  border-color: var(--text);
+}

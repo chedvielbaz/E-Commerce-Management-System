@@ -1,0 +1,74 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-shell {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem clamp(1rem, 3.5vw, 2rem) 4rem;
+  flex: 1;
+}
+
+.page-head {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-head__eyebrow {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.page-head__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.page-head__sub {
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  max-width: 40rem;
+  line-height: 1.6;
+}
+
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.surface--pad {
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+}
+
+.page-head--center {
+  text-align: center;
+  border-bottom: none;
+  padding-bottom: 0.75rem;
+}
+
+.page-head--center .page-head__sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.customer-nav-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}

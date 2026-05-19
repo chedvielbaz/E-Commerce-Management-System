@@ -50,12 +50,27 @@ cd firebase
 npm install
 ```
 
-Copy environment template and fill your ImgBB key (optional for uploads):
+Copy the environment template and fill **Firebase Web config** (and optionally ImgBB):
 
 ```bash
 cp .env.example .env.local
-# Edit .env.local — set VITE_IMGBB_API_KEY if you use admin image upload
 ```
+
+In **Firebase Console → Project settings → Your apps → Firebase SDK snippet**, copy each field into `.env.local`:
+
+| Env variable | SDK config key |
+|----------------|----------------|
+| `VITE_FIREBASE_API_KEY` | `apiKey` |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `authDomain` |
+| `VITE_FIREBASE_PROJECT_ID` | `projectId` |
+| `VITE_FIREBASE_STORAGE_BUCKET` | `storageBucket` |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | `messagingSenderId` |
+| `VITE_FIREBASE_APP_ID` | `appId` |
+| `VITE_FIREBASE_MEASUREMENT_ID` | `measurementId` (optional) |
+
+Optional: `VITE_IMGBB_API_KEY` for admin image uploads.
+
+Restart `npm run dev` after editing `.env.local`.
 
 Dev server (includes Vite proxy `/imgbb-api` → ImgBB for smoother local uploads):
 
@@ -76,7 +91,7 @@ npm run preview  # preview production build
 ## Firebase console checklist
 
 1. **Authentication → Sign-in method:** enable **Email/Password**.
-2. **Firestore:** create database if needed (same project as in `src/firebase/firebaseConfig.js`).
+2. **Firestore:** create database if needed (same Firebase project as in your `.env.local` Web config).
 3. **Admin user:**
    - Add a user under **Authentication → Users** (email + password).
    - Copy that user’s **UID**.
@@ -114,8 +129,8 @@ src/
 ## Security & production notes
 
 - **Firestore Security Rules** should restrict reads/writes by role and UID; this repo assumes you configure rules in the Firebase console.
-- Client Firebase config keys are normal for web apps; real protection is **rules**, App Check (optional), and server-side constraints where needed.
-- ImgBB keys in `.env.local` must stay **out of git** (already ignored via `.gitignore`).
+- Firebase Web config is loaded from **`VITE_FIREBASE_*`** at build/dev time and still ships in the browser bundle; GitHub secret scanning is less likely to flag literals in repo code. Protection remains **Firestore rules**, App Check (optional), and tight IAM where relevant.
+- Never commit `.env.local`; `.env.example` lists keys without values (already ignored patterns in `.gitignore`).
 
 ---
 
